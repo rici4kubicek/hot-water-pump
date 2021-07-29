@@ -46,3 +46,6 @@ jobs:
 
       - name: Replace version
         run: sh tools/replace" "build/eledio-app" '{{$APPVERSION$}}' "$VERSION"
+
+      - name: Create dist
+        run: tar -cvf "dist/eledio-app.tar" --owner=0 --group=0 -C "build" .
