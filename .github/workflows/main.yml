@@ -25,6 +25,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8 #install the python needed
+
       # Runs a single command using the runners shell
       - name: Create build dir
         run: mkdir build
@@ -46,6 +51,9 @@ jobs:
 
       - name: Echo version
         run: echo $VERSION
+
+      - name: Replace version
+        run: python3 tools/replace" "build/eledio-app" '{{$APPVERSION$}}' "$VERSION"
 
       - name: Create dist
         run: tar -cvf "dist/eledio-app.tar" --owner=0 --group=0 -C "build" .
