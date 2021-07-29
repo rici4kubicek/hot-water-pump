@@ -1,0 +1,121 @@
+{
+  "devices": {
+    "unit-40": {
+      "bus": "i2c",
+      "address": 40,
+      "datacrc": 4638,
+      "compilermagic": 4006394694
+    }
+  },
+  "identifiers": {
+    "gatewayHWEvent": {
+      "unit": "unit-40",
+      "partition": "sdp",
+      "offset": 0,
+      "entrysize": 2,
+      "depth": 0,
+      "type": 1,
+      "prescaler": 0,
+      "a": 1,
+      "b": 0,
+      "datatype": "u16",
+      "srq": 0
+    },
+    "gatewayHWState": {
+      "unit": "unit-40",
+      "partition": "sdp",
+      "offset": 2,
+      "entrysize": 2,
+      "depth": 0,
+      "type": 1,
+      "prescaler": 0,
+      "a": 1,
+      "b": 0,
+      "datatype": "u16"
+    },
+    "pumpCurrent": {
+      "unit": "unit-40",
+      "partition": "sdp",
+      "offset": 4,
+      "entrysize": 2,
+      "depth": 0,
+      "type": 1,
+      "prescaler": 0,
+      "a": 0.001,
+      "b": 0,
+      "datatype": "u16"
+    },
+    "pumpVoltage": {
+      "unit": "unit-40",
+      "partition": "sdp",
+      "offset": 6,
+      "entrysize": 2,
+      "depth": 0,
+      "type": 1,
+      "prescaler": 0,
+      "a": 0.01,
+      "b": 0,
+      "datatype": "u16"
+    },
+    "pumpPf": {
+      "unit": "unit-40",
+      "partition": "sdp",
+      "offset": 8,
+      "entrysize": 2,
+      "depth": 0,
+      "type": 1,
+      "prescaler": 0,
+      "a": 0.001,
+      "b": 0,
+      "datatype": "s16"
+    },
+    "pumpActivePower": {
+      "unit": "unit-40",
+      "partition": "sdp",
+      "offset": 10,
+      "entrysize": 2,
+      "depth": 0,
+      "type": 1,
+      "prescaler": 0,
+      "a": 0.001,
+      "b": 0,
+      "datatype": "s16"
+    },
+    "waterTemperature": {
+      "unit": "unit-40",
+      "partition": "sdp",
+      "offset": 12,
+      "entrysize": 2,
+      "depth": 0,
+      "type": 1,
+      "prescaler": 0,
+      "a": 0.01,
+      "b": 0,
+      "datatype": "s16"
+    },
+    "flowSwitch": {
+      "unit": "unit-40",
+      "partition": "sdp",
+      "offset": 14,
+      "entrysize": 1,
+      "depth": 0,
+      "type": 1,
+      "prescaler": 0,
+      "a": 1,
+      "b": 0,
+      "datatype": "u8"
+    },
+    "gatewayHWAction": {
+      "unit": "unit-40",
+      "partition": "adp",
+      "offset": 0,
+      "entrysize": 2
+    },
+    "pump": {
+      "unit": "unit-40",
+      "partition": "adp",
+      "offset": 2,
+      "entrysize": 1
+    }
+  }
+}

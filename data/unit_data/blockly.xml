@@ -1,0 +1,83 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="eledio_pcu_igw" id="^ZyEWLi-@3=?%_/TK#8v" x="288" y="63">
+    <field name="ID">40</field>
+    <statement name="SENSORS">
+      <block type="eledio_mro" id="-kb*_x1nr$k)jght:f!4">
+        <field name="NAME">pump</field>
+        <field name="ID">0x0101</field>
+        <field name="ZCS">FALSE</field>
+        <field name="TPM">FALSE</field>
+        <statement name="READ">
+          <block type="pmum_i" id="@*u+)Wu^1R748!|1oZXZ">
+            <field name="PERIOD">2</field>
+            <statement name="STORAGE">
+              <block type="storage_single" id="(_3^fWrxD8oYg#qmCrF%">
+                <field name="NAME">Current</field>
+              </block>
+            </statement>
+            <next>
+              <block type="pmum_u" id="qw._}KIk5FH!5y_x6czX">
+                <field name="PERIOD">2</field>
+                <statement name="STORAGE">
+                  <block type="storage_single" id="}loP:rx/tGLFW.F,s)Xc">
+                    <field name="NAME">Voltage</field>
+                  </block>
+                </statement>
+                <next>
+                  <block type="pmum_pf" id="E:Wh73v6qT)~h$_uHUdk">
+                    <field name="PERIOD">2</field>
+                    <statement name="STORAGE">
+                      <block type="storage_single" id="QWg3i]ac_Y=Xgso[Zc4s">
+                        <field name="NAME">Pf</field>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="pmum_pmean" id="F~M=Bd~r2l9w)|C}nZ%K">
+                        <field name="PERIOD">2</field>
+                        <statement name="STORAGE">
+                          <block type="storage_single" id="DMG`!}N(Ogyrra+Ai]uU">
+                            <field name="NAME">ActivePower</field>
+                          </block>
+                        </statement>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="eledio_dio" id="Q|/A(gv/.(crN:-|l}B]">
+            <field name="ID">0x0001</field>
+            <statement name="SENSOR">
+              <block type="eledio_ds18b20single" id="*+KA-)J:V_H}5`76ot5f">
+                <field name="PERIOD">2</field>
+                <statement name="STORAGE">
+                  <block type="storage_single" id="%jTE1@+xlkP[~](D9%0B">
+                    <field name="NAME">waterTemperature</field>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+            <next>
+              <block type="eledio_dio" id="LvoZ/yEOjgG]EgQ(e9~I">
+                <field name="ID">0x0002</field>
+                <statement name="SENSOR">
+                  <block type="eledio_din" id="7gs$/vy/EpjR`vq%576C">
+                    <field name="PERIODE">1</field>
+                    <statement name="STORAGE">
+                      <block type="storage_single" id="0dHfJT{?*y;TsK*~Rv6S">
+                        <field name="NAME">flowSwitch</field>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>
