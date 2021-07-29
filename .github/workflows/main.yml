@@ -38,5 +38,5 @@ jobs:
       - name: Copy app
         run: cp -r app build/app
 
-      - name: set chmod
+      - name: Set chmod
         run: chmod a+x build/eledio-app
