@@ -44,6 +44,9 @@ jobs:
       - name: Get version
         run: VERSION=$("tools/long-version")
 
+      - name: Echo version
+        run: echo $VERSION
+
       - name: Replace version
         run: sh tools/replace" "build/eledio-app" '{{$APPVERSION$}}' "$VERSION"
 
