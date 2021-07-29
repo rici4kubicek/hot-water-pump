@@ -4,16 +4,6 @@ from eledio import Eledio
 from eledio.component.mpu.i2c import SMBus
 from eledio.device.pcu import PcuFactory
 from eledio.device.mpu import MpuFactory
-from eledio.device.srq import Srq
-
-
-def handle_srq(identifiers):
-    """
-    User handling of SRQ (called in context of eledio.wait_events)
-    :param identifiers: dictionary of eledio identifiers and their new value after SRQ
-    :return:
-    """
-    print("Service requests!", identifiers)
 
 
 def handle_error(src, ex):
