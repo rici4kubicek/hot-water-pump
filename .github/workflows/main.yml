@@ -26,5 +26,17 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: Build tar script
-        run: sh build.sh
+      - name: Create build dir
+        run: mkdir build
+
+      - name: Create dist dir
+          run: mkdir dist
+
+      - name: Copy eledio-app
+          run: cp eledio-app build/eledio-app
+
+      - name: Copy app
+          run: cp -r app build/app
+
+      - name: set chmod
+          run: chmod a+x build/eledio-app
