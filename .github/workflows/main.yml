@@ -53,7 +53,7 @@ jobs:
         run: echo $VERSION
 
       - name: Replace version
-        run: python tools/replace "build/eledio-app" '{{$APPVERSION$}}' "$VERSION"
+        run: python3 tools/replace "build/eledio-app" '{{$APPVERSION$}}' "$VERSION"
 
       - name: Create dist
         run: tar -cvf "dist/eledio-app.tar" --owner=0 --group=0 -C "build" .
