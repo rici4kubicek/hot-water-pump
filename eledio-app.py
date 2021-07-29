@@ -29,6 +29,10 @@ if __name__ == "__main__":
     with open('data/mpu-config.json') as f:
         eledio.append_config(json.load(f))
 
+    config = {}
+    with open('data/config.json') as f:
+        config = json.load(f)
+
     while True:
         # load state of inputs and outputs
         eledio.load_inputs()
