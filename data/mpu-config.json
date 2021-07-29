@@ -1,0 +1,33 @@
+{
+  "devices": {
+    "mpu-dev": {
+      "bus": "mpu"
+    }
+  },
+  "identifiers": {
+    "mpuWifiRssi": {
+      "unit": "mpu-dev",
+      "parameter": "wifi-rssi"
+    },
+    "mpuInternalTemperature": {
+      "unit": "mpu-dev",
+      "parameter": "temperature"
+    },
+    "mpuCpuPercent": {
+      "unit": "mpu-dev",
+      "parameter": "cpu-percent"
+    },
+    "mpuLed": {
+      "unit": "mpu-dev",
+      "parameter": "led"
+    },
+    "mpuBeeper": {
+      "unit": "mpu-dev",
+      "parameter": "beeper"
+    },
+    "mpuWatchdog": {
+      "unit": "mpu-dev",
+      "parameter": "watchdog"
+    }
+  }
+}
