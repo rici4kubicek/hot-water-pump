@@ -47,8 +47,11 @@ jobs:
       - name: Echo version
         run: echo $VERSION
 
-      - name: Replace version
-        run: sh tools/replace" "build/eledio-app" '{{$APPVERSION$}}' "$VERSION"
-
       - name: Create dist
         run: tar -cvf "dist/eledio-app.tar" --owner=0 --group=0 -C "build" .
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: eledio-app
+          path: dist/eledio-app.tar
