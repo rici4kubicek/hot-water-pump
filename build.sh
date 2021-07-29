@@ -12,7 +12,8 @@ mkdir "$BUILD"
 rm -rf "$DIST"
 mkdir "$DIST"
 
-cp -r "$SRC/"{eledio-app,app} "$BUILD"
+cp -r "$SRC/eledio-app "$BUILD"
+cp -r "$SRC/app "$BUILD"
 chmod a+x "$BUILD/eledio-app"
 
 VERSION=$("$BASE_DIR/tools/long-version")
