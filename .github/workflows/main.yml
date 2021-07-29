@@ -40,3 +40,9 @@ jobs:
 
       - name: Set chmod
         run: chmod a+x build/eledio-app
+
+      - name: Get version
+        run: VERSION=$("tools/long-version")
+
+      - name: Replace version
+        run: sh tools/replace" "build/eledio-app" '{{$APPVERSION$}}' "$VERSION"
