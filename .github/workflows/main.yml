@@ -46,14 +46,11 @@ jobs:
       - name: Set chmod
         run: chmod a+x build/eledio-app
 
-      - name: Get version
-        run: VERSION=$("tools/long-version")
-
-      - name: Echo version
-        run: echo $VERSION
-
-      - name: Replace version
-        run: python3 tools/replace "build/eledio-app" '{{$APPVERSION$}}' "$VERSION"
+      - name: Get and set version
+        run: |
+          VERSION=$("tools/long-version")
+          echo $VERSION
+          python3 tools/replace "build/eledio-app" '{{$APPVERSION$}}' "$VERSION"
 
       - name: Create dist
         run: tar -cvf "dist/eledio-app.tar" --owner=0 --group=0 -C "build" .
