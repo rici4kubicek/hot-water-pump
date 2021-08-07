@@ -51,9 +51,10 @@ if __name__ == "__main__":
         # e.g.
         #   print(eledio["test1"])
         #   eledio["test2"] = True
+        eledio["pump"] = True
 
         # apply final value to hardware
         eledio.store_outputs()
 
         # do something else or wait some time
-        eledio.wait_events(1.0)
+        eledio.wait_events(3.0)
