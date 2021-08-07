@@ -49,7 +49,7 @@
         </statement>
         <next>
           <block type="eledio_dio" id="Q|/A(gv/.(crN:-|l}B]">
-            <field name="ID">0x0001</field>
+            <field name="ID">0x0002</field>
             <statement name="SENSOR">
               <block type="eledio_ds18b20single" id="*+KA-)J:V_H}5`76ot5f">
                 <field name="PERIOD">2</field>
@@ -62,7 +62,7 @@
             </statement>
             <next>
               <block type="eledio_dio" id="LvoZ/yEOjgG]EgQ(e9~I">
-                <field name="ID">0x0002</field>
+                <field name="ID">0x0003</field>
                 <statement name="SENSOR">
                   <block type="eledio_din" id="7gs$/vy/EpjR`vq%576C">
                     <field name="PERIODE">1</field>

@@ -3,7 +3,7 @@
     "unit-40": {
       "bus": "i2c",
       "address": 40,
-      "datacrc": 4638,
+      "datacrc": 56667,
       "compilermagic": 4006394694
     }
   },
