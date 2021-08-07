@@ -33,14 +33,14 @@ if __name__ == "__main__":
     eledio.error_handler = handle_error
 
     # repeat for every configuration file
-    with open('data/map.json') as f:
+    with open('map.json') as f:
         eledio.append_config(json.load(f))
 
-    with open('data/mpu-config.json') as f:
+    with open('mpu-config.json') as f:
         eledio.append_config(json.load(f))
 
     config = {}
-    with open('data/config.json') as f:
+    with open('config.json') as f:
         config = json.load(f)
 
     while True:
