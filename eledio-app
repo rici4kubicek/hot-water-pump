@@ -62,10 +62,10 @@ if __name__ == "__main__":
                 if config["root_address"]:
                     address = "{}&field1={}&field2={}&field3={}&field4={}".format(config["root_address"],
                                                                                                         1 if eledio["pump"] else 0,
-                                                                                                        eledio["pumpCurrent"],
-                                                                                                        eledio["waterTemperature"],
+                                                                                                        int(eledio["pumpCurrent"]),
+                                                                                                        int(eledio["waterTemperature"]),
                                                                                                         1 if eledio["flowSwitch"] else 0)
-                    subprocess.call(['curl', address])
+                    subprocess.call(['curl', '-k', address])
             except:
                 pass
 
