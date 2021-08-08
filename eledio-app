@@ -8,7 +8,6 @@ from eledio.device.mpu import MpuFactory
 from app.interval import Interval
 import subprocess
 
-
 __author__ = "Richard Kubicek"
 __copyright__ = "Copyright 21"
 __credits__ = ["Richard Kubicek"]
@@ -60,12 +59,12 @@ if __name__ == "__main__":
         if comm_interval.restarted():
             try:
                 if config["root_address"]:
-                    address = "{}&field1={}&field2={}&field3={}&field4={}".format(config["root_address"],
-                                                                                                        1 if eledio["pump"] else 0,
-                                                                                                        int(eledio["pumpCurrent"]),
-                                                                                                        int(eledio["waterTemperature"]),
-                                                                                                        1 if eledio["flowSwitch"] else 0)
-                    subprocess.call(['curl', '-k', address])
+                    data = "api_key={}&field1={}&field2={}&field3={}&field4={}".format(config["root_address"],
+                                                                                       1 if eledio["pump"] else 0,
+                                                                                       int(eledio["pumpCurrent"]),
+                                                                                       int(eledio["waterTemperature"]),
+                                                                                       1 if eledio["flowSwitch"] else 0)
+                    subprocess.call(['curl', '-k', '--data', data, 'https://api.thingspeak.com/update'])
             except:
                 pass
 
