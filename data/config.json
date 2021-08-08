@@ -10,5 +10,5 @@
     }
   ],
   "rundown": 15,
-  "root_address": "https://api.thingspeak.com/update?api_key=VG2QQO9HVF5X1P9O"
+  "root_address": "API_KEY"
 }
