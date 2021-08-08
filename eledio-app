@@ -55,11 +55,12 @@ if __name__ == "__main__":
         #   print(eledio["test1"])
         #   eledio["test2"] = True
         eledio["pump"] = True
+        eledio.store_outputs()
 
         if comm_interval.restarted():
             try:
                 if config["root_address"]:
-                    address = "{}&pumpState={}&pumpCurrent={}&waterTemperature={}&flowSwitch={}".format(config["root_address"],
+                    address = "{}&field1={}&field2={}&field3={}&field4={}".format(config["root_address"],
                                                                                                         1 if eledio["pump"] else 0,
                                                                                                         eledio["pumpCurrent"],
                                                                                                         eledio["waterTemperature"],
