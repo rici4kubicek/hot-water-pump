@@ -5,6 +5,8 @@ from eledio import Eledio
 from eledio.component.mpu.i2c import SMBus
 from eledio.device.pcu import PcuFactory
 from eledio.device.mpu import MpuFactory
+from app.interval import Interval
+import requests
 
 
 __author__ = "Richard Kubicek"
@@ -31,6 +33,7 @@ if __name__ == "__main__":
     eledio.register_device_factory("i2c", PcuFactory(SMBus(0)))
     eledio.register_device_factory("mpu", MpuFactory())
     eledio.error_handler = handle_error
+    comm_interval = Interval(15)
 
     # repeat for every configuration file
     with open('map.json') as f:
@@ -52,6 +55,18 @@ if __name__ == "__main__":
         #   print(eledio["test1"])
         #   eledio["test2"] = True
         eledio["pump"] = True
+
+        if comm_interval.restarted():
+            try:
+                if config["root_address"]:
+                    address = "{}&pumpState={}&pumpCurrent={}&waterTemperature={}&flowSwitch={}".format(config["root_address"],
+                                                                                                        1 if eledio["pump"] else 0,
+                                                                                                        eledio["pumpCurrent"],
+                                                                                                        eledio["waterTemperature"],
+                                                                                                        1 if eledio["flowSwitch"] else 0)
+                    response = requests.get(address)
+            except:
+                pass
 
         # apply final value to hardware
         eledio.store_outputs()
