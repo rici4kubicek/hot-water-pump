@@ -61,8 +61,8 @@ if __name__ == "__main__":
                 if config["root_address"]:
                     data = "api_key={}&field1={}&field2={}&field3={}&field4={}".format(config["root_address"],
                                                                                        1 if eledio["pump"] else 0,
-                                                                                       int(eledio["pumpCurrent"]),
-                                                                                       int(eledio["waterTemperature"]),
+                                                                                       int(eledio["pumpCurrent"] if eledio["pumpCurrent"] else 0),
+                                                                                       int(eledio["waterTemperature"] if eledio["waterTemperature"] else 0),
                                                                                        1 if eledio["flowSwitch"] else 0)
                     subprocess.call(['curl', '-k', '--data', data, 'https://api.thingspeak.com/update'])
             except:
