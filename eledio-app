@@ -5,7 +5,7 @@ from eledio import Eledio
 from eledio.component.mpu.i2c import SMBus
 from eledio.device.pcu import PcuFactory
 from eledio.device.mpu import MpuFactory
-from app.interval import Interval
+from .app.interval import Interval
 import subprocess
 
 
