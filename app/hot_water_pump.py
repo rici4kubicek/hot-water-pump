@@ -18,7 +18,6 @@ def configure_logger():
     # Start local logging
     logging.basicConfig(level=10)
     log_path = 'hot-water-pump.log'
-    os.makedirs(os.path.dirname(log_path))
     handler = logging.handlers.RotatingFileHandler(
         log_path,
         maxBytes=100000,
