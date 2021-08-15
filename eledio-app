@@ -1,16 +1,11 @@
 #!/usr/bin/python -u
-import json
 import logging
 import logging.handlers
-import os
+from app.interval import Interval
+from app.hot_water_pump import HotWaterPumpDevice, HotWaterPumpLib
 from datetime import datetime
 import pytz
 
-from eledio import Eledio
-from eledio.component.mpu.i2c import SMBus
-from eledio.device.pcu import PcuFactory
-from eledio.device.mpu import MpuFactory
-from app.interval import Interval
 
 __author__ = "Richard Kubicek"
 __copyright__ = "Copyright 21"
@@ -23,79 +18,28 @@ __email__ = "rici.kubicek@gmail.com"
 logging.getLogger('eledio').setLevel(logging.INFO)
 
 
-def configure_logger():
-    # Start local logging
-    logging.basicConfig(level=10)
-    log_path = 'log/hot-water-pump.log'
-    os.makedirs(os.path.dirname(log_path))
-    handler = logging.handlers.RotatingFileHandler(
-        log_path,
-        maxBytes=100000,
-        backupCount=10)
-    handler.setLevel(10)
-    formatter = logging.Formatter('%(asctime)s %(levelname)s:%(name)s: %(message)s')
-    handler.setFormatter(formatter)
-    logging.getLogger().addHandler(handler)
-
-
-class HotWaterPump:
-    def __init__(self):
-        configure_logger()
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self.eledio = Eledio()
-        self.eledio.register_device_factory("i2c", PcuFactory(SMBus(0)))
-        self.eledio.register_device_factory("mpu", MpuFactory())
-        self.eledio.error_handler = self._handle_eledio_error
-        self.config = {}
-        self.init_configuration()
-
-    def init_configuration(self):
-        # repeat for every configuration file
-        with open('map.json') as f:
-            self.eledio.append_config(json.load(f))
-
-        with open('mpu-config.json') as f:
-            self.eledio.append_config(json.load(f))
-
-        with open('config.json') as f:
-            self.config = json.load(f)
-
-    def _handle_eledio_error(self, src, ex):
-        message = "Eledio: error {}, {}".format(src, ex)
-        self.logger.error(message)
-
-        # until memory leak is resolved rather restart the script
-        if "Out of memory" in str(ex):
-            raise ex
-
-    def check_time_mask(self, datetime=datetime.now()):
-        actual_time = datetime.hour * 60 + datetime.minute
-        actual_day = datetime.weekday()
-        if 0 <= actual_day <= 6:
-            pass
-        else:
-            actual_day = 0
-
-        for _range in self.config["timeplan"][str(actual_day)]:
-            if _range["begin"] <= actual_time <= _range["end"]:
-                return True
-        return False
-
-
 if __name__ == "__main__":
-    pump = HotWaterPump()
+    pump = HotWaterPumpDevice()
+    pump_lib = HotWaterPumpLib(pump.config)
+    rundown = None
+    logger = logging.getLogger(self.__class__.__name__)
 
     while True:
         # load state of inputs and outputs
         pump.eledio.load_inputs()
 
-        # manipulate with inputs and outputs by identifier
-        # e.g.
-        #   print(eledio["test1"])
-        #   eledio["test2"] = True
-        pump.eledio["pump"] = True
-        pump.eledio.store_outputs()
+        tz = pytz.timezone('Europe/Prague')
+        t = datetime.now(tz)
 
+        if pump_lib.check_time_mask(t):
+            pump.eledio["pump"] = True
+        elif not pump.eledio["flowSwitch"]:
+            rundown = Interval(pump.config["rundown"]*60*60)
+            pump.eledio["pump"] = True
+            logger.debug("Flow activated!!!")
+
+        if rundown.is_expired:
+            pump.eledio["pump"] = False
 
         # apply final value to hardware
         pump.eledio.store_outputs()
