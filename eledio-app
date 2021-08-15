@@ -37,7 +37,6 @@ if __name__ == "__main__":
             elif not pump.eledio["flowSwitch"]:
                 rundown = Interval(pump.config["rundown"]*60*60)
                 pump.eledio["pump"] = True
-                logger.debug("Flow activated!!!")
 
             if rundown.is_expired and not pump_lib.check_time_mask(t):
                 pump.eledio["pump"] = False
