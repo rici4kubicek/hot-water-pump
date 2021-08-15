@@ -22,7 +22,7 @@ if __name__ == "__main__":
     pump = HotWaterPumpDevice()
     pump_lib = HotWaterPumpLib(pump.config)
     rundown = None
-    logger = logging.getLogger(self.__class__.__name__)
+    logger = logging.getLogger(__name__)
 
     while True:
         # load state of inputs and outputs
