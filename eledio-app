@@ -26,24 +26,30 @@ if __name__ == "__main__":
     logger.info("Application started")
 
     while True:
-        # load state of inputs and outputs
-        pump.eledio.load_inputs()
+        try:
+            pump.eledio.load_inputs()
 
-        tz = pytz.timezone('Europe/Prague')
-        t = datetime.now(tz)
+            tz = pytz.timezone('Europe/Prague')
+            t = datetime.now(tz)
 
-        if pump_lib.check_time_mask(t):
-            pump.eledio["pump"] = True
-        elif not pump.eledio["flowSwitch"]:
-            rundown = Interval(pump.config["rundown"]*60*60)
-            pump.eledio["pump"] = True
-            logger.debug("Flow activated!!!")
+            if pump_lib.check_time_mask(t):
+                pump.eledio["pump"] = True
+            elif not pump.eledio["flowSwitch"]:
+                rundown = Interval(pump.config["rundown"]*60*60)
+                pump.eledio["pump"] = True
+                logger.debug("Flow activated!!!")
 
-        if rundown.is_expired and not pump_lib.check_time_mask(t):
-            pump.eledio["pump"] = False
+            if rundown.is_expired and not pump_lib.check_time_mask(t):
+                pump.eledio["pump"] = False
 
-        # apply final value to hardware
-        pump.eledio.store_outputs()
+            # apply final value to hardware
+            pump.eledio.store_outputs()
 
-        # do something else or wait some time
-        pump.eledio.wait_events(3.0)
+            # do something else or wait some time
+            pump.eledio.wait_events(1.0)
+        except Exception:
+            import traceback
+
+            traceback.print_exc()
+            with open('exception.log', 'w') as f:
+                traceback.print_exc(file=f)
