@@ -17,7 +17,7 @@ __all__ = ['HotWaterPumpDevice', 'HotWaterPumpLib']
 def configure_logger():
     # Start local logging
     logging.basicConfig(level=10)
-    log_path = 'log/hot-water-pump.log'
+    log_path = 'hot-water-pump.log'
     os.makedirs(os.path.dirname(log_path))
     handler = logging.handlers.RotatingFileHandler(
         log_path,
