@@ -5,6 +5,7 @@ from app.interval import Interval
 from app.hot_water_pump import HotWaterPumpDevice, HotWaterPumpLib
 from datetime import datetime
 import pytz
+import subprocess
 
 
 __author__ = "Richard Kubicek"
@@ -22,8 +23,10 @@ if __name__ == "__main__":
     pump = HotWaterPumpDevice()
     pump_lib = HotWaterPumpLib(pump.config)
     rundown = Interval(1)
+    comm_interval = Interval(5)
     logger = logging.getLogger(__name__)
     logger.info("Application started")
+    reason = 0
 
     while True:
         try:
@@ -34,12 +37,27 @@ if __name__ == "__main__":
 
             if pump_lib.check_time_mask(t):
                 pump.eledio["pump"] = True
+                reason = 1
             elif not pump.eledio["flowSwitch"]:
                 rundown = Interval(pump.config["rundown"]*60*60)
                 pump.eledio["pump"] = True
+                reason = 2
 
             if rundown.is_expired and not pump_lib.check_time_mask(t):
                 pump.eledio["pump"] = False
+                reason = 0
+
+            if comm_interval.restarted():
+                data = "field1={pumpState}&field2={pumpCurrent}&field3={waterTemperature}&field4={flowSwitch}" \
+                       "&field5={pumpPower}&field6={pumpVoltage}&field7={runReason}".\
+                    format(pumpState=pump.eledio["pump"], pumpCurrent=pump.eledio["pumpCurrent"],
+                           waterTemperature=pump.eledio["waterTemperature"] if pump.eledio["waterTemperature"] else None,
+                           flowSwitch=pump.eledio["flowSwitch"], pumpPower=pump.eledio["pumpActivePower"],
+                           pumpVoltage=pump.eledio["pumpVoltage"], runReason=reason)
+                subprocess.call(
+                    ['curl', '--silent', '--request', 'POST', '--header', 'X-THINGSPEAKAPIKEY: {}'.format(pump.config["api_key"]), '--data',
+                     data, 'http://api.thingspeak.com/update'])
+                logger.debug("SEND {}".format(data))
 
             # apply final value to hardware
             pump.eledio.store_outputs()
