@@ -51,12 +51,15 @@ class HotWaterPumpDevice:
             self.config = json.load(f)
 
     def _handle_eledio_error(self, src, ex):
-        message = "Eledio: error {}, {}".format(src, ex)
-        self.logger.error(message)
+        try:
+            message = "Eledio: error {}, {}".format(src, ex)
+            self.logger.error(message)
 
-        # until memory leak is resolved rather restart the script
-        if "Out of memory" in str(ex):
-            raise ex
+            # until memory leak is resolved rather restart the script
+            if "Out of memory" in str(ex):
+                raise ex
+        except:
+            self.logger.error("ELEDIO err")
 
 
 class HotWaterPumpLib:
