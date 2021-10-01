@@ -58,7 +58,7 @@ if __name__ == "__main__":
                            pumpVoltage=pump.eledio["pumpVoltage"], runReason=reason)
                 subprocess.call(
                     ['curl', '--silent', '--request', 'POST', '--header', 'X-THINGSPEAKAPIKEY: {}'.format(pump.config["api_key"]), '--data',
-                     data, 'http://api.thingspeak.com/update', '--max-time', '30'])
+                     data, 'http://api.thingspeak.com/update', '--max-time', '5', '--connect-timeout', '5'])
                 logger.debug("SEND {}".format(data))
 
             # apply final value to hardware
