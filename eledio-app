@@ -6,6 +6,7 @@ from app.hot_water_pump import HotWaterPumpDevice, HotWaterPumpLib
 from datetime import datetime
 import pytz
 import subprocess
+import paho.mqtt.client as mqtt
 
 
 __author__ = "Richard Kubicek"
@@ -18,6 +19,17 @@ __email__ = "rici.kubicek@gmail.com"
 
 logging.getLogger('eledio').setLevel(logging.ERROR)
 
+flag_connected = 0
+
+
+def on_mqtt_connect(client, userdata, flags, rc):
+    global flag_connected
+    flag_connected = 1
+
+
+def on_mqtt_disconnect(client, userdata, rc):
+    global flag_connected
+
 
 if __name__ == "__main__":
     pump = HotWaterPumpDevice()
@@ -28,6 +40,13 @@ if __name__ == "__main__":
     logger.info("Application started")
     reason = 0
     send_trigger = False
+
+    mqtt_client = mqtt.Client(pump.config["mqtt_client_id"])
+    mqtt_client.on_connect = on_mqtt_connect
+    mqtt_client.on_disconnect = on_mqtt_disconnect
+    mqtt_client.username_pw_set(pump.config["username"], pump.config["pasword"])
+    mqtt_client.connect_async(host="mqtt3.thingspeak.com", port=1883)
+    mqtt_client.loop_start()
 
     while True:
         try:
@@ -56,9 +75,8 @@ if __name__ == "__main__":
                            waterTemperature=pump.eledio["waterTemperature"] if pump.eledio["waterTemperature"] else None,
                            flowSwitch=pump.eledio["flowSwitch"], pumpPower=pump.eledio["pumpActivePower"],
                            pumpVoltage=pump.eledio["pumpVoltage"], runReason=reason)
-                subprocess.call(
-                    ['curl', '--silent', '--request', 'POST', '--header', 'X-THINGSPEAKAPIKEY: {}'.format(pump.config["api_key"]), '--data',
-                     data, 'http://api.thingspeak.com/update', '--max-time', '5', '--connect-timeout', '5'])
+                if flag_connected:
+                    mqtt_client.publish(pump.config["mqtt_topic"], data, 0, False)
                 logger.debug("SEND {}".format(data))
 
             # apply final value to hardware

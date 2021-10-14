@@ -94,5 +94,9 @@
     ]
   },
   "rundown": 30,
-  "api_key": "API"
+  "api_key": "API",
+  "mqtt_client_id": "client_id",
+  "mqtt_username": "username",
+  "mqtt_password": "pasword",
+  "mqtt_topic": "channels/channel_id/publish"
 }
