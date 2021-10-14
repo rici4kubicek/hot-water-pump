@@ -44,7 +44,7 @@ if __name__ == "__main__":
     mqtt_client = mqtt.Client(pump.config["mqtt_client_id"])
     mqtt_client.on_connect = on_mqtt_connect
     mqtt_client.on_disconnect = on_mqtt_disconnect
-    mqtt_client.username_pw_set(pump.config["username"], pump.config["pasword"])
+    mqtt_client.username_pw_set(pump.config["mqtt_username"], pump.config["mqtt_password"])
     mqtt_client.connect_async(host="mqtt3.thingspeak.com", port=1883)
     mqtt_client.loop_start()
 
